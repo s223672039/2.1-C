@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .todo-app {
+      max-width: 1600px;
+      margin: auto;
+      padding: 80px;
+      border: 4px solid white;
+      border-radius: 20px;
+      box-shadow: 0px 4px 20px black (0, 0, 0, 0.2);
+    }
+    .todo-item {
+      display: flex;
+      align-items: left;
+      margin: 40px 0;
+      padding: 20px;
+      border: 4px solid black;
+      border-radius: 12px;
+      background-color: white;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="todoapp">
+    <h2>Todo App</h2>
+    <input v-model="newTask" @keyup.enter="addTask" placeholder="Add a new task">
+    <ul>
+      <li v-for="(task, index) in tasks" :key="index" class="todo-item" :class="{ 'completed': task.completed }">
+        <input type="checkbox" v-model="task.completed">
+        <span>{{ task.text }}</span>
+        <button @click="deleteTask(index)">Delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.js"></script>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          newTask: '',
+          tasks: []
+        };
+      },
+      methods: {
+        addTask() {
+          if (this.newTask.trim() !== '') {
+            this.tasks.push({ text: this.newTask, completed: false });
+            this.newTask = '';
+          }
+        },
+        deleteTask(index) {
+          this.tasks.splice(index, 1);
+        }
+      }
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>
+
+

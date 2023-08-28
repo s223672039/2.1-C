@@ -1,0 +1,52 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue 3 Concepts</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.6/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Conditional Rendering -->
+    <div>
+      <h2>Conditional Rendering</h2>
+      <p v-if="showText">Rendering using v-if.</p>
+      <p v-else>Rendering using v-else.</p>
+      
+      <p v-show="showWithShow">\showning/hiding using v-show.</p>
+    </div>
+
+    <!-- Looping with v-for -->
+    <div>
+      <h2>Looping using v-for</h2>
+      <ul>
+        <li v-for="(item, index) in items" :key="index">{{ item }}</li>
+      </ul>
+    </div>
+
+    <!-- Form Input Handling -->
+    <div>
+      <h2>Form Input Handling</h2>
+      <input type="text" v-model="inputText">
+      <p>Input text: {{ inputText }}</p>
+    </div>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          showText: true,
+          showWithShow: true,
+          items: ['TASk 1.1P', 'TASK 1.2P', 'TASK 2.1C'],
+          inputText: ''
+        };
+      }
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>
+
+
