@@ -1,9 +1,23 @@
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vue 3 Concepts</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@3.2.6/dist/vue.global.js"></script>
+  <style>
+    .completed {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .blink {
+      animation: blinker 1s linear infinite;
+    }
+    @keyframes blinker {
+      50% {
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
   <div id="app">
@@ -13,14 +27,16 @@
       <p v-if="showText">Rendering using v-if.</p>
       <p v-else>Rendering using v-else.</p>
       
-      <p v-show="showWithShow">\showning/hiding using v-show.</p>
+      <p v-show="showWithShow">Showing/hiding using v-show.</p>
     </div>
 
     <!-- Looping with v-for -->
     <div>
       <h2>Looping using v-for</h2>
       <ul>
-        <li v-for="(item, index) in items" :key="index">{{ item }}</li>
+        <li v-for="(item, index) in items" :key="index" :class="{ 'completed': item.completed }">
+          <input type="checkbox" v-model="item.completed"> {{ item.text }}
+        </li>
       </ul>
     </div>
 
@@ -28,7 +44,27 @@
     <div>
       <h2>Form Input Handling</h2>
       <input type="text" v-model="inputText">
+      <button @click="addTask">Add Task</button>
       <p>Input text: {{ inputText }}</p>
+    </div>
+
+    <!-- Computed Property -->
+    <div>
+      <h2>Computed Property</h2>
+      <p>Total Items: {{ itemCount }}</p>
+    </div>
+
+    <!-- Event Handling -->
+    <div>
+      <h2>Event Handling</h2>
+      <button @click="toggleTextVisibility">Toggle Text Visibility</button>
+      <button @click="clearCompletedTasks">Clear Completed Tasks</button>
+    </div>
+
+    <!-- Blinking Link with Credits -->
+    <div>
+      <h2>Contact:</h2>
+      <p class="blink"><a href="mailto:example@example.com">Namra Patel</a></p>
     </div>
   </div>
 
@@ -38,9 +74,32 @@
         return {
           showText: true,
           showWithShow: true,
-          items: ['TASk 1.1P', 'TASK 1.2P', 'TASK 2.1C'],
+          items: [
+            { text: 'Task 1.1', completed: false },
+            { text: 'Task 1.2', completed: false },
+            { text: 'Task 2.1', completed: false }
+          ],
           inputText: ''
         };
+      },
+      computed: {
+        itemCount() {
+          return this.items.length;
+        }
+      },
+      methods: {
+        toggleTextVisibility() {
+          this.showText = !this.showText;
+        },
+        addTask() {
+          if (this.inputText.trim() !== '') {
+            this.items.push({ text: this.inputText, completed: false });
+            this.inputText = '';
+          }
+        },
+        clearCompletedTasks() {
+          this.items = this.items.filter(item => !item.completed);
+        }
       }
     });
 
@@ -48,5 +107,3 @@
   </script>
 </body>
 </html>
-
-
